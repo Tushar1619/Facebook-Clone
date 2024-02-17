@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('{any}','AppController@index')
-->where('any','.*')
-->middleware('auth')
-->name('home');
+Route::get('/',function(){
+    return view('home');
+})
+->middleware('auth');
