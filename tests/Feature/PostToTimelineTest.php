@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,16 +14,31 @@ class PostToTimelineTest extends TestCase
    {
     $this->withoutExceptionHandling();
     $user = User::factory()->create();
-        $this->actingAs($user,'api');
+
+    $this->actingAs($user,'api');
+
     $response = $this->post('api/posts',[
         'data'=>[
             'type'=>'posts',
             'attributes'=>[
-                'body'=>'This is body'
+                'body'=>'Testing Body'
             ]
         ]
             ]);
-    $post = \App\Models\Post::first();
-    $response->assertStatus(201);
+    $post = Post::first();
+    $this->assertCount(1,Post::all());
+    $this->assertEquals($user->id,$post->user_id);
+    $this->assertEquals('Testing Body',$post->body);
+    $response->assertStatus(201)
+    ->assertJson([
+        'data'=>[
+            'type'=>'posts',
+            'post_id'=>$post->id,
+            'attributes'=>[
+                'body'=>'Testing Body'
+            ]
+            ],
+            'links'=>url('/posts'.$post->id),
+    ]);
    }
 }
