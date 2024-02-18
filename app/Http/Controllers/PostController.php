@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index(){
-        return new PostCollection(Post::all());
+    public function index(Request $request){
+        // dd($request->user());
+        return new PostCollection($request->user()->posts);
     }
-    public function store($request){ 
+    public function store(Request $request){ 
         $data =  $request->validate([
             'data.attributes.body'=>''
         ]);
