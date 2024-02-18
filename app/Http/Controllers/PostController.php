@@ -12,11 +12,11 @@ class PostController extends Controller
     public function index(){
         return new PostCollection(Post::all());
     }
-    public function store(){ 
-        $data =  request()->validate([
+    public function store($request){ 
+        $data =  $request->validate([
             'data.attributes.body'=>''
         ]);
-        $post = request()->user()->posts()->create(
+        $post = $request->user()->posts()->create(
             $data['data']['attributes']
         );
         // because this new PostResoucrce object is returned laravel get to know that something has been created and thus returns 201 code.
