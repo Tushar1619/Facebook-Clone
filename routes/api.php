@@ -14,4 +14,5 @@ Route::get('/user', function (Request $request) {
 
 // Route::post('/posts','PostController@store');
 Route::resource('posts',PostController::class);
+
 });
