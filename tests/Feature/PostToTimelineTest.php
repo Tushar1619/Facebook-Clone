@@ -29,16 +29,26 @@ class PostToTimelineTest extends TestCase
     $this->assertCount(1,Post::all());
     $this->assertEquals($user->id,$post->user_id);
     $this->assertEquals('Testing Body',$post->body);
+    
     $response->assertStatus(201)
     ->assertJson([
         'data'=>[
             'type'=>'posts',
             'post_id'=>$post->id,
             'attributes'=>[
+                'posted_by'=>[
+                    'data'=>[
+                        'attributes'=>[
+                            'name'=>$user->name,
+                        ]
+                    ]
+                ],
                 'body'=>'Testing Body'
             ]
             ],
-            'links'=>url('/posts'.$post->id),
+            'links'=>[
+                'self'=>url('/posts'.$post->id)
+            ],
     ]);
    }
 }

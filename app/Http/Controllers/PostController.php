@@ -2,29 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Post as PostResource;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function store(){
+    public function store(){ 
         $data =  request()->validate([
             'data.attributes.body'=>''
         ]);
         $post = request()->user()->posts()->create(
             $data['data']['attributes']
         );
-        // ye neeche jaise data daala hai vaise bhi daal skte the
-            //[ "body"=>$data['data']['attributes']['body'] ]
-        
-        return response([
-            'data'=>[
-                'type'=>'posts',
-                'post_id'=>$post->id,
-                'attributes'=>[
-                    'body'=>$post->body
-                ]
-                ],
-                'links'=>url('/posts'.$post->id),
-        ],201); 
+        // because this new PostResoucrce object is returned laravel get to know that something has been created and thus returns 201 code.
+        return new PostResource($post);
     }
 }
