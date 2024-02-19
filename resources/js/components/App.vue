@@ -1,5 +1,5 @@
 <template>
-    <div>hello from app</div>
+    <div class="bg-black text-white">hello from app</div>
 </template>
 
 <script >
