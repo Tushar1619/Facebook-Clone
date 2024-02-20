@@ -16,13 +16,13 @@
 import Post from "../../components/Post.vue";
 
 import { onMounted, ref } from "vue";
-
+import { useRoute } from "vue-router";
 const user = ref([]);
 const loading = ref(true);
-
+const route = useRoute();
 onMounted(() => {
   axios
-    .get("/api/users/" + this.$route.params.userId)
+    .get("/api/users/" +route.params.userId)
     .then((res) => {
         user.value = res.data;
       loading.value = false;
