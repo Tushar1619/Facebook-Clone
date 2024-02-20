@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-white h-12 px-4 flex items-center border-b border-gray-400 shadow-sm">
+  <div
+    class="bg-white h-12 px-4 flex items-center border-b border-gray-400 shadow-sm"
+  >
     <div class="w-1/3">
       <div class="flex">
         <router-link to="/">
@@ -49,7 +51,7 @@
         </svg>
       </router-link>
       <router-link
-        to="/"
+        :to="'/users/' + user?.data?.user_id"
         class="px-6 border-b-2 border-white h-full flex items-center"
       >
         <img
@@ -88,4 +90,18 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from "vue";
+
+const user = ref([]);
+
+onMounted(() => {
+  axios
+    .get("/api/auth-user")
+    .then((res) => {
+      user.value = res.data;
+    })
+    .catch((err) => {
+      console.log("Unable to fetch  auth user");
+    });
+});
 </script>
