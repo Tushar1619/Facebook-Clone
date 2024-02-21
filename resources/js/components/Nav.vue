@@ -51,7 +51,7 @@
         </svg>
       </router-link>
       <router-link
-        :to="'/users/' + user?.data?.user_id"
+        :to="'/users/' + authUser?.data?.user_id"
         class="px-6 border-b-2 border-white h-full flex items-center"
       >
         <img
@@ -90,18 +90,12 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { computed } from "vue";
+import { useStore } from 'vuex';
 
-const user = ref([]);
+const store = useStore();
 
-onMounted(() => {
-  axios
-    .get("/api/auth-user")
-    .then((res) => {
-      user.value = res.data;
-    })
-    .catch((err) => {
-      console.log("Unable to fetch  auth user");
-    });
-});
+const authUser = computed(() => store.getters.authUser);
+
+
 </script>

@@ -12,6 +12,13 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
+import { useStore } from "vuex";
 import Nav from "./Nav.vue";
 import Sidebar from "./Sidebar.vue";
+
+const store = useStore();
+onMounted(() => {
+  store.dispatch("fetchAuthUser");
+});
 </script>
