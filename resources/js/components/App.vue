@@ -12,13 +12,31 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 import Nav from "./Nav.vue";
 import Sidebar from "./Sidebar.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
 onMounted(() => {
   store.dispatch("fetchAuthUser");
+  store.dispatch("setPageTitle", router.currentRoute.value.meta.title);
 });
+
+watch(
+  () => router.currentRoute.value.meta.title,
+  (newTitle) => {
+    store.dispatch("setPageTitle", newTitle);
+  }
+);
 </script>
+
+
+<!-- watch(
+  () => route.currentRoute.value.meta.title, // Watch the currentRoute value of the router
+  (newTitle) => {
+    store.dispatch('setPageTitle', newTitle);
+  }
+); -->
